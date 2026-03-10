@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人主页 · Personal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@300;400;500&family=DM+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --ink: #1C1C1C;
+    --warm: #C4956A;
+    --rust: #8B3A2A;
+    --sage: #7A8C6E;
+    --dust: #B8A99A;
+    --paper: #EDE8DE;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Noto Serif SC', serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--rust);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid var(--warm);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+    opacity: 0.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 28px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    mix-blend-mode: multiply;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links {
+    display: flex; gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.6;
+    transition: opacity 0.3s;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .nav-links a:hover { opacity: 1; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    padding: 160px 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(56px, 7vw, 96px);
+    line-height: 1.0;
+    color: var(--ink);
+    opacity: 0;
+    animation: fadeUp 0.9s 0.5s forwards;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .hero-desc {
+    margin-top: 40px;
+    max-width: 380px;
+    font-size: 16px;
+    line-height: 1.9;
+    color: var(--ink);
+    opacity: 0;
+    animation: fadeUp 0.9s 0.8s forwards;
+    font-weight: 300;
+  }
+
+  .hero-tags {
+    margin-top: 40px;
+    display: flex; flex-wrap: wrap; gap: 10px;
+    opacity: 0;
+    animation: fadeUp 0.9s 1s forwards;
+  }
+
+  .tag {
+    padding: 6px 16px;
+    border: 1px solid var(--dust);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    transition: all 0.3s;
+  }
+
+  .tag:hover {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+
+  .hero-right {
+    position: relative;
+    background: var(--paper);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-photo-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    color: var(--dust);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    position: relative;
+  }
+
+  .photo-frame {
+    width: 280px; height: 380px;
+    border: 1px solid var(--dust);
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  .photo-frame::before {
+    content: '';
+    position: absolute; inset: 8px;
+    border: 1px solid var(--dust);
+    opacity: 0.4;
+  }
+
+  .photo-inner {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--dust);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .hero-number {
+    position: absolute;
+    bottom: 40px; right: 40px;
+    font-family: 'Playfair Display', serif;
+    font-size: 120px;
+    color: var(--paper);
+    line-height: 1;
+    user-select: none;
+    z-index: 0;
+  }
+
+  /* SECTION STYLES */
+  section {
+    padding: 120px 60px;
+    position: relative;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 80px;
+    border-bottom: 1px solid var(--dust);
+    padding-bottom: 24px;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--warm);
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .section-subtitle {
+    margin-left: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--dust);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* COLLECTIONS - Books/Films/Music */
+  .collections-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--dust);
+  }
+
+  .collection-item {
+    background: var(--cream);
+    padding: 40px 32px;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+  }
+
+  .collection-item:hover {
+    background: var(--ink);
+  }
+
+  .collection-item:hover .col-title,
+  .collection-item:hover .col-creator,
+  .collection-item:hover .col-note,
+  .collection-item:hover .col-type {
+    color: var(--cream) !important;
+  }
+
+  .collection-item:hover .col-num {
+    color: var(--warm);
+  }
+
+  /* Quote reveal on hover */
+  .col-quote {
+    display: none;
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--cream);
+    opacity: 0.85;
+    margin: 14px 0 10px;
+    padding-left: 12px;
+    border-left: 2px solid var(--warm);
+  }
+
+  .collection-item:hover .col-quote { display: block; }
+  .collection-item:hover .col-note  { display: none; }
+
+  .col-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 20px;
+    transition: color 0.3s;
+  }
+
+  .col-num {
+    position: absolute;
+    top: 32px; right: 32px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 48px;
+    color: var(--paper);
+    line-height: 1;
+    transition: color 0.3s;
+    user-select: none;
+  }
+
+  .col-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 8px;
+    transition: color 0.3s;
+  }
+
+  .col-creator {
+    font-size: 13px;
+    color: var(--dust);
+    margin-bottom: 20px;
+    transition: color 0.3s;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  .col-note {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--ink);
+    opacity: 0.7;
+    transition: color 0.3s, opacity 0.3s;
+  }
+
+  .collection-item:hover .col-note {
+    opacity: 0.8;
+  }
+
+  /* LIFE — pets & living */
+  .life-section {
+    background: var(--paper);
+  }
+
+  .life-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 2px;
+    background: var(--dust);
+  }
+
+  .life-card {
+    background: var(--cream);
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .life-card.large {
+    grid-row: 1 / 3;
+  }
+
+  .life-card-inner {
+    height: 100%;
+    min-height: 220px;
+    display: flex; flex-direction: column;
+    padding: 36px 32px;
+    position: relative;
+  }
+
+  .life-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .life-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .life-card-text {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--ink);
+    opacity: 0.6;
+  }
+
+  .life-card.large .life-card-inner {
+    min-height: 440px;
+    justify-content: flex-end;
+    background: linear-gradient(to top, rgba(28,28,28,0.85) 0%, transparent 50%),
+                repeating-linear-gradient(45deg, var(--paper) 0px, var(--paper) 1px, transparent 1px, transparent 30px);
+  }
+
+  .life-card.large .life-card-title,
+  .life-card.large .life-card-text {
+    color: var(--cream);
+    opacity: 1;
+  }
+
+  .life-card.large .life-card-text {
+    opacity: 0.75;
+  }
+
+  .pet-label {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--warm);
+    color: var(--cream);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* COLUMNS — Blog / Video / Writing */
+  .columns-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+  }
+
+  .column-section {
+    border-top: 2px solid var(--ink);
+    padding-top: 32px;
+  }
+
+  .column-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .bilingual-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--rust);
+    border: 1px solid var(--rust);
+    padding: 2px 7px;
+    opacity: 0.8;
+  }
+
+  .column-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--ink);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .column-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--dust);
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+  }
+
+  .column-excerpt {
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--ink);
+    opacity: 0.65;
+  }
+
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rust);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+    cursor: none;
+  }
+
+  .read-more:hover { border-color: var(--rust); }
+  .read-more::after { content: '→'; transition: transform 0.3s; }
+  .read-more:hover::after { transform: translateX(4px); }
+
+  /* STYLE SECTION */
+  .style-section {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .style-section .section-title { color: var(--cream); }
+  .style-section .section-num { color: var(--warm); }
+  .style-section .section-header { border-bottom-color: rgba(255,255,255,0.15); }
+  .style-section .section-subtitle { color: rgba(255,255,255,0.3); }
+
+  .style-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .style-item {
+    background: var(--ink);
+    padding: 40px 28px;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.3s;
+  }
+
+  .style-item:hover { background: #2a2a2a; }
+
+  .style-era {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--warm);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .style-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--cream);
+    margin-bottom: 10px;
+  }
+
+  .style-note {
+    font-size: 13px;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 80px 60px;
+    border-top: 1px solid var(--dust);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .footer-left .footer-name {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 48px;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .footer-tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--dust);
+    letter-spacing: 0.12em;
+    margin-top: 12px;
+    text-transform: uppercase;
+  }
+
+  .footer-links {
+    display: flex; flex-direction: column; gap: 12px; text-align: right;
+  }
+
+  .footer-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+  }
+
+  .footer-links a:hover { opacity: 1; }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--dust);
+    letter-spacing: 0.08em;
+    margin-top: 8px;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--dust); }
+
+  /* LANG TOGGLE */
+  .lang-toggle {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    opacity: 0.5;
+    cursor: none;
+    background: none; border: none;
+    padding: 4px 8px;
+    transition: opacity 0.3s;
+  }
+  .lang-toggle:hover { opacity: 1; }
+
+  /* DIVIDER */
+  .marquee-bar {
+    overflow: hidden;
+    background: var(--rust);
+    padding: 14px 0;
+    white-space: nowrap;
+  }
+
+  .marquee-inner {
+    display: inline-flex;
+    gap: 60px;
+    animation: marquee 18s linear infinite;
+  }
+
+  .marquee-inner span {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0.85;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Your Name</div>
+  <ul class="nav-links">
+    <li><a href="#collections">收藏</a></li>
+    <li><a href="#life">生活</a></li>
+    <li><a href="#columns">专栏</a></li>
+    <li><a href="#style">穿搭</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+  <button class="lang-toggle">中 / EN</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">理想主义者 · Idealist</div>
+    <h1 class="hero-name">
+      你的<br><em>名字</em><br>在这里
+    </h1>
+    <p class="hero-desc">
+      写作者 / 漫游者 / 收藏家。<br>
+      在文字里找坐标，在生活里找意义，<br>
+      把所有热爱都好好归档。
+    </p>
+    <div class="hero-tags">
+      <span class="tag">文学</span>
+      <span class="tag">电影</span>
+      <span class="tag">话剧</span>
+      <span class="tag">音乐</span>
+      <span class="tag">穿搭</span>
+      <span class="tag">写作</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo-placeholder">
+      <div class="photo-frame">
+        <div class="photo-inner">
+          你的照片<br><br>
+          <small style="font-size:11px; opacity:0.5;">Your Portrait</small>
+        </div>
+      </div>
+    </div>
+    <div class="hero-number">01</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-inner">
+    <span>Books</span><span>·</span>
+    <span>Films</span><span>·</span>
+    <span>Music</span><span>·</span>
+    <span>Theatre</span><span>·</span>
+    <span>Fashion</span><span>·</span>
+    <span>Pets</span><span>·</span>
+    <span>Writing</span><span>·</span>
+    <span>Books</span><span>·</span>
+    <span>Films</span><span>·</span>
+    <span>Music</span><span>·</span>
+    <span>Theatre</span><span>·</span>
+    <span>Fashion</span><span>·</span>
+    <span>Pets</span><span>·</span>
+    <span>Writing</span><span>·</span>
+  </div>
+</div>
+
+<!-- COLLECTIONS -->
+<section id="collections">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">我的<em>收藏</em></h2>
+    <span class="section-subtitle">Curations</span>
+  </div>
+
+  <div class="collections-grid reveal">
+    <div class="collection-item">
+      <div class="col-type">📖 Book</div>
+      <span class="col-num">01</span>
+      <div class="col-title">《局外人》</div>
+      <div class="col-creator">Albert Camus · 1942</div>
+      <p class="col-quote">"今天，妈妈死了。也许是昨天，我不确定。"</p>
+      <p class="col-note">加缪让我第一次理解，冷漠可以是一种诚实。那种不配合世界期待的勇气，至今仍是我的参照系。</p>
+    </div>
+    <div class="collection-item">
+      <div class="col-type">🎬 Film</div>
+      <span class="col-num">02</span>
+      <div class="col-title">《花样年华》</div>
+      <div class="col-creator">Wong Kar-wai · 2000</div>
+      <p class="col-quote">"那些消逝了的岁月，仿佛隔着一块积着灰尘的玻璃，看得到，抓不着。"</p>
+      <p class="col-note">王家卫把欲望拍成了建筑——那些没有说出口的话，比说出来的更占空间。</p>
+    </div>
+    <div class="collection-item">
+      <div class="col-type">🎵 Music</div>
+      <span class="col-num">03</span>
+      <div class="col-title">Metamorphosis</div>
+      <div class="col-creator">Philip Glass · 1988</div>
+      <p class="col-quote">"Repetition is a form of change."</p>
+      <p class="col-note">听Glass的重复是一种冥想。那些极微的变化提醒我：时间的质感不在于速度，而在于注意力。</p>
+    </div>
+    <div class="collection-item">
+      <div class="col-type">🎭 Theatre</div>
+      <span class="col-num">04</span>
+      <div class="col-title">等待戈多</div>
+      <div class="col-creator">Samuel Beckett · 1953</div>
+      <p class="col-quote">"Let us do something while we have the chance."</p>
+      <p class="col-note">舞台上什么都没有发生，但散场后我在路上走了很久——这才是剧场应该有的力量。</p>
+    </div>
+    <div class="collection-item">
+      <div class="col-type">📖 Book</div>
+      <span class="col-num">05</span>
+      <div class="col-title">《挪威的森林》</div>
+      <div class="col-creator">村上春树 · 1987</div>
+      <p class="col-quote">"死不是生的对立面，而是作为生的一部分永存。"</p>
+      <p class="col-note">十八岁第一次读，觉得是爱情。三十岁再读，才发现整本书在谈如何与失去共存。</p>
+    </div>
+    <div class="collection-item">
+      <div class="col-type">🎬 Film</div>
+      <span class="col-num">06</span>
+      <div class="col-title">Portrait of a Lady on Fire</div>
+      <div class="col-creator">Céline Sciamma · 2019</div>
+      <p class="col-quote">"Do all lovers feel they're inventing something?"</p>
+      <p class="col-note">如何用凝视代替触碰，用记忆代替占有。这是我见过最克制也最炽烈的爱情电影。</p>
+    </div>
+  </div>
+</section>
+
+<!-- LIFE -->
+<section id="life" class="life-section">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">日常<em>生活</em></h2>
+    <span class="section-subtitle">Life & Pets</span>
+  </div>
+
+  <div class="life-grid reveal">
+    <div class="life-card large">
+      <div class="life-card-inner">
+        <span class="pet-label">🐱 My Cat · 我的猫</span>
+        <div class="life-card-title">与一只猫同住的哲学</div>
+        <p class="life-card-text">
+          它不会因为你悲伤就来安慰你，<br>
+          但它会在你最安静的时候<br>
+          选择坐在你身边。<br>
+          这已经足够了。
+        </p>
+      </div>
+    </div>
+    <div class="life-card">
+      <div class="life-card-inner">
+        <div class="life-icon">☕</div>
+        <div class="life-card-title">晨间仪式</div>
+        <p class="life-card-text">咖啡、一本书、窗外的光。不检查手机的第一个小时属于自己。</p>
+      </div>
+    </div>
+    <div class="life-card">
+      <div class="life-card-inner">
+        <div class="life-icon">🌿</div>
+        <div class="life-card-title">植物档案</div>
+        <p class="life-card-text">十二盆植物，其中三盆已死。活下来的都有了名字。</p>
+      </div>
+    </div>
+    <div class="life-card">
+      <div class="life-card-inner">
+        <div class="life-icon">🗺</div>
+        <div class="life-card-title">漫游记录</div>
+        <p class="life-card-text">不是旅行，是漫游。没有攻略，只有方向感和时间。</p>
+      </div>
+    </div>
+    <div class="life-card">
+      <div class="life-card-inner">
+        <div class="life-icon">✍️</div>
+        <div class="life-card-title">深夜手记</div>
+        <p class="life-card-text">凌晨两点的想法有一种特殊的诚实度，值得记下来。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLUMNS -->
+<section id="columns">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <h2 class="section-title">固定<em>专栏</em></h2>
+    <span class="section-subtitle">Columns</span>
+  </div>
+
+  <div class="columns-grid reveal">
+    <div class="column-section">
+      <div class="column-label">📝 Blog · 博客</div>
+      <div class="column-heading">关于孤独，我想说的比想象中少</div>
+      <div class="column-meta">2024.03.15 · 1,240 字</div>
+      <p class="column-excerpt">
+        我曾以为孤独是一个需要被解决的问题，直到某天下午坐在咖啡馆，忽然意识到我正在享受它——
+      </p>
+      <a href="#" class="read-more">阅读全文</a>
+    </div>
+
+    <div class="column-section">
+      <div class="column-label">🎥 Video · 视频采访 <span class="bilingual-badge">中 / EN</span></div>
+      <div class="column-heading">和一位翻译聊聊：那些消失在语言缝隙里的东西</div>
+      <div class="column-meta">2024.02.28 · 38 min · <em style="font-style:italic; opacity:0.6; font-size:12px;">On What Gets Lost in Translation</em></div>
+      <p class="column-excerpt">
+        翻译是一种失去。最好的译者知道什么不能被翻译，然后用另一种方式让读者感受到那个空缺——
+      </p>
+      <a href="#" class="read-more">观看视频</a>
+    </div>
+
+    <div class="column-section">
+      <div class="column-label">✒️ Essays · 文章 <span class="bilingual-badge">中 / EN</span></div>
+      <div class="column-heading">一个文科生在理工时代的自白</div>
+      <div class="column-meta">2024.01.10 · 3,500 字 · <em style="font-style:italic; opacity:0.6; font-size:12px;">A Humanist's Confession in a STEM Era</em></div>
+      <p class="column-excerpt">
+        有人问我学文科有什么用。我想说，文科教会我的第一件事，就是这个问题本身是有问题的——
+      </p>
+      <a href="#" class="read-more">阅读全文</a>
+    </div>
+  </div>
+</section>
+
+<!-- STYLE -->
+<section id="style" class="style-section">
+  <div class="section-header reveal">
+    <span class="section-num">05</span>
+    <h2 class="section-title">穿<em>搭</em>哲学</h2>
+    <span class="section-subtitle">Personal Style</span>
+  </div>
+
+  <div class="style-grid reveal">
+    <div class="style-item">
+      <div class="style-era">Everyday</div>
+      <div class="style-brand">Linen & Cotton</div>
+      <p class="style-note">日常的衣服需要忘记它的存在。质感好、颜色安静、不需要被注意。</p>
+    </div>
+    <div class="style-item">
+      <div class="style-era">Important Days</div>
+      <div class="style-brand">Vintage & Archive</div>
+      <p class="style-note">重要的日子穿有故事的衣服。一件二手大衣比全新的更适合见人生中重要的人。</p>
+    </div>
+    <div class="style-item">
+      <div class="style-era">Theatre / Concert</div>
+      <div class="style-brand">Structured Drama</div>
+      <p class="style-note">去剧场是去参与一个仪式。穿搭应该有一点戏剧性，和舞台上的光对话。</p>
+    </div>
+    <div class="style-item">
+      <div class="style-era">Travel</div>
+      <div class="style-brand">Neutral Utility</div>
+      <p class="style-note">旅行时只带能彼此搭配的颜色。越少的选择，越多的自由。</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-left">
+    <div class="footer-name">Your Name</div>
+    <div class="footer-tagline">Writer · Wanderer · Collector</div>
+    <div class="footer-copy" style="margin-top: 24px;">© 2026 · Built with intention</div>
+  </div>
+  <div class="footer-links">
+    <a href="#">微信公众号</a>
+    <a href="#">小红书</a>
+    <a href="#">Instagram</a>
+    <a href="#">Newsletter</a>
+    <a href="#">邮件联系</a>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  document.querySelectorAll('a, button, .collection-item, .style-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
+      ring.style.transform = 'translate(-50%,-50%) scale(1.4)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+      ring.style.transform = 'translate(-50%,-50%) scale(1)';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
