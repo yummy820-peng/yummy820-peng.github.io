@@ -51,13 +51,22 @@
   nav {
     position: fixed; top: 0; left: 0; right: 0;
     z-index: 100;
-    padding: 24px 60px;
+    padding: 0 60px;
+    height: 64px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: rgba(245,240,232,0.92);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--dust);
+  }
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .nav-logo {
     font-family: 'Playfair Display', serif;
@@ -90,6 +99,8 @@
     padding: 0;
     position: relative;
     overflow: hidden;
+    max-width: 1280px;
+    margin: 0 auto;
   }
   .hero-left {
     padding: 140px 60px 80px;
@@ -211,7 +222,9 @@
   }
 
   /* SECTIONS */
-  section { padding: 100px 60px; position: relative; }
+  section { padding: 100px 60px; position: relative; max-width: 1280px; margin: 0 auto; }
+  .marquee-wrap { background: var(--rust); }
+  footer { max-width: 1280px; margin: 0 auto; }
   .section-header {
     display: flex;
     align-items: baseline;
@@ -514,6 +527,8 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    max-width: 1280px;
+    margin: 0 auto;
   }
   .footer-name {
     font-family: 'Playfair Display', serif;
@@ -561,6 +576,83 @@
   .reveal.visible { opacity: 1; transform: translateY(0); }
   ::-webkit-scrollbar { width: 3px; }
   ::-webkit-scrollbar-thumb { background: var(--dust); }
+
+  /* ── MOBILE ─────────────────────────────────── */
+  @media (max-width: 768px) {
+
+    /* Nav */
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .nav-inner { justify-content: space-between; }
+
+    /* Hero */
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .hero-left {
+      padding: 100px 24px 40px;
+    }
+    .hero-name {
+      font-size: clamp(36px, 10vw, 56px);
+    }
+    .hero-right {
+      height: 60vw;
+      min-height: 260px;
+    }
+    .photo-frame {
+      width: 160px;
+      height: 220px;
+    }
+
+    /* Sections */
+    section {
+      padding: 60px 24px;
+    }
+    .section-title { font-size: 28px; }
+    .section-subtitle { display: none; }
+
+    /* Collections */
+    .collections-grid {
+      grid-template-columns: 1fr;
+    }
+
+    /* Life grid */
+    .life-grid {
+      grid-template-columns: 1fr;
+    }
+    .life-card.large { grid-row: auto; }
+    .life-card.large .cat-photo { min-height: 280px; }
+
+    /* Columns */
+    .columns-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    /* Style grid */
+    .style-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .style-img { height: 200px; }
+
+    /* Footer */
+    footer {
+      flex-direction: column;
+      gap: 32px;
+      align-items: flex-start;
+      padding: 48px 24px;
+    }
+    .footer-links { text-align: left; }
+    .footer-name { font-size: 32px; }
+  }
+
+  @media (max-width: 480px) {
+    .style-grid { grid-template-columns: 1fr; }
+    .style-img { height: 240px; }
+    .hero-tags { gap: 6px; }
+    .tag { font-size: 9px; padding: 4px 10px; }
+  }
 </style>
 </head>
 <body>
@@ -569,6 +661,7 @@
 <div class="cursor-ring" id="cursorRing"></div>
 
 <nav>
+  <div class="nav-inner">
   <div class="nav-logo">yummy</div>
   <ul class="nav-links">
     <li><a href="#collections">我的收藏</a></li>
@@ -577,6 +670,7 @@
     <li><a href="#style">穿搭</a></li>
     <li><a href="#contact">联系</a></li>
   </ul>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -847,11 +941,11 @@
   </div>
   <div class="footer-links">
     <a href="https://instagram.com/vane65785" target="_blank">Instagram · @vane65785</a>
-    <a href="mailto:pengwenping65@gmail.com">pengwenping65@gmail.com</a>
+    <a href="/cdn-cgi/l/email-protection#4434212a2333212a342d2a237271042329252d286a272b29"><span class="__cf_email__" data-cfemail="6616030801110308160f0801505326010b070f0a4805090b">[email&#160;protected]</span></a>
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
   let mx = 0, my = 0, rx = 0, ry = 0;
@@ -891,14 +985,4 @@
         obs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
-
-  reveals.forEach(el => obs.observe(el));
-
-  // Fallback: if page is already scrolled or observer slow, reveal after short delay
-  setTimeout(() => {
-    reveals.forEach(el => el.classList.add('visible'));
-  }, 800);
-</script>
-</body>
-</html>
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0
