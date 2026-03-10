@@ -569,11 +569,13 @@
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  .reveal {
+  /* reveal: visible by default, JS adds animation on desktop */
+  .reveal { opacity: 1; transform: none; }
+  .js-ready .reveal {
     opacity: 0; transform: translateY(16px);
     transition: opacity 0.65s ease, transform 0.65s ease;
   }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .js-ready .reveal.visible { opacity: 1; transform: translateY(0); }
   ::-webkit-scrollbar { width: 3px; }
   ::-webkit-scrollbar-thumb { background: var(--dust); }
 
@@ -982,13 +984,21 @@
     });
   });
 
-  // Scroll reveal — mark visible immediately if already in view
-  const reveals = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0
+  // Only enable scroll animations on desktop
+  if (window.innerWidth > 768) {
+    document.documentElement.classList.add('js-ready');
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.05 });
+    reveals.forEach(el => obs.observe(el));
+    setTimeout(() => { reveals.forEach(el => el.classList.add('visible')); }, 800);
+  }
+</script>
+</body>
+</html>
