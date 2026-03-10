@@ -580,6 +580,12 @@
   /* ── MOBILE ─────────────────────────────────── */
   @media (max-width: 768px) {
 
+    /* Force all reveal elements visible on mobile */
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
     /* Nav */
     nav { padding: 0 20px; }
     .nav-links { display: none; }
