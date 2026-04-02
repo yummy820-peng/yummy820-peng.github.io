@@ -456,6 +456,33 @@
   .read-more::after { content: '→'; transition: transform 0.3s; }
   .read-more:hover::after { transform: translateX(4px); }
 
+  .col-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 24px; }
+  .col-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--dust);
+    text-decoration: none;
+    color: var(--ink);
+    transition: opacity 0.2s;
+  }
+  .col-list-item:first-child { border-top: 1px solid var(--dust); }
+  .col-list-item:hover { opacity: 0.6; }
+  .col-list-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .col-list-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    opacity: 0.45;
+    white-space: nowrap;
+  }
+
   /* STYLE - with scene images */
   .style-section { background: var(--ink); color: var(--cream); }
   .style-section .section-title { color: var(--cream); }
@@ -666,9 +693,9 @@
   <div class="nav-inner">
   <div class="nav-logo">yummy</div>
   <ul class="nav-links">
-    <li><a href="#collections">我的收藏</a></li>
+    <li><a href="#collections">本周推荐</a></li>
     <li><a href="#life">我的生活</a></li>
-    <li><a href="#columns">小彭友约</a></li>
+    <li><a href="#columns">好彭友约</a></li>
     <li><a href="#style">旅行穿搭</a></li>
     <li><a href="#contact">联系方式</a></li>
   </ul>
@@ -733,7 +760,7 @@
 <section id="collections">
   <div class="section-header reveal">
     <span class="section-num">02</span>
-    <h2 class="section-title">我的<em>收藏</em></h2>
+    <h2 class="section-title">本周<em>推荐</em></h2>
     <span class="section-subtitle">Curations</span>
   </div>
   <div class="collections-grid reveal">
@@ -741,37 +768,37 @@
     <div class="collection-item">
       <div class="col-type">📖 Book</div>
       <span class="col-num">01</span>
-      <div class="col-title">《静静的顿河》</div>
-      <div class="col-creator">肖洛霍夫 · Sholokhov · 1940</div>
-      <p class="col-quote">"顿河还在静静流淌，像时间一样不知疲倦，带走一切，又留下一切。"</p>
-      <p class="col-note">一部让人感受到土地、战争和命运重量的史诗。读完之后很久都走不出来。</p>
+      <div class="col-title">《爱的五种语言》</div>
+      <div class="col-creator">盖瑞·查普曼 · Gary Chapman · 1992</div>
+      <p class="col-quote">"你以为你在爱他，但你用的语言他根本听不懂。"</p>
+      <p class="col-note">肯定的言辞、精心的时刻、接受礼物、服务的行为、身体的接触。你是哪种？你爱的人是哪种？</p>
     </div>
 
     <div class="collection-item">
       <div class="col-type">📖 Book</div>
       <span class="col-num">02</span>
-      <div class="col-title">《橘子不是唯一的水果》</div>
-      <div class="col-creator">珍妮特·温特森 · Jeanette Winterson · 1985</div>
-      <p class="col-quote">"我以为我在寻找上帝，其实我在寻找自己。"</p>
-      <p class="col-note">一个女孩在信仰与自我之间撕裂又重建的故事。温特森用最温柔的方式写出了最疼的成长。</p>
+      <div class="col-title">《天才的编辑》</div>
+      <div class="col-creator">A. Scott Berg · 1978</div>
+      <p class="col-quote">"一个编辑的工作，是让作者成为他们本来就该成为的样子。"</p>
+      <p class="col-note">麦克斯·珀金斯发掘了海明威、菲茨杰拉德和沃尔夫。这本书让我相信，幕后的人同样伟大。</p>
     </div>
 
     <div class="collection-item">
       <div class="col-type">📖 Book</div>
       <span class="col-num">03</span>
-      <div class="col-title">《德米安》</div>
-      <div class="col-creator">赫尔曼·黑塞 · Hermann Hesse · 1919</div>
-      <p class="col-quote">"我所渴望的，只是尝试顺从内心的呼唤而生活。为何竟如此之难？"</p>
-      <p class="col-note">写给每一个还没有找到自己的人。黑塞把成长的撕裂写成了一种仪式。</p>
+      <div class="col-title">《鱼不存在》</div>
+      <div class="col-creator">露露·米勒 · Lulu Miller · 2020</div>
+      <p class="col-quote">"混沌不是敌人，也许它才是真相本身。"</p>
+      <p class="col-note">一本关于秩序与失控、科学与信仰的书。读完之后对"分类"这件事有了全新的怀疑。</p>
     </div>
 
     <div class="collection-item">
       <div class="col-type">🎬 Film</div>
       <span class="col-num">04</span>
-      <div class="col-title">《还有明天》</div>
-      <div class="col-creator">帕奥拉·科尔泰莱西 · 2023</div>
-      <p class="col-quote">"她用一张选票，悄悄改写了自己的命运。"</p>
-      <p class="col-note">黑白影像里的意大利女性史诗。结尾那个转身，是近年最好的电影时刻之一。</p>
+      <div class="col-title">《喜宴》</div>
+      <div class="col-creator">李安 · Ang Lee · 1993</div>
+      <p class="col-quote">"你们以为抓住了一条龙的尾巴，其实你们不了解中国人。"</p>
+      <p class="col-note">李安用一场婚宴装下了所有东西：爱、谎言、文化、代际的沉默。每次看都有不同的心碎。</p>
     </div>
 
     <div class="collection-item">
@@ -861,39 +888,50 @@
 <section id="columns">
   <div class="section-header reveal">
     <span class="section-num">04</span>
-    <h2 class="section-title">小彭<em style="color:var(--rust);">友约</em></h2>
+    <h2 class="section-title">好彭<em style="color:var(--rust);">友约</em></h2>
     <span class="section-subtitle">Columns</span>
   </div>
   <div class="columns-grid reveal">
 
     <div class="column-section">
       <div class="column-label">📝 Blog · 博客</div>
-      <div class="column-heading">关于孤独，我想说的比想象中少</div>
-      <div class="column-meta">2026.03.10 · 1,240 字<br><em style="font-style:italic;font-size:11px;opacity:0.6;">On Solitude, Less Than I Thought</em></div>
-      <p class="column-excerpt">
-        我曾以为孤独是一个需要被解决的问题，直到某天下午坐在咖啡馆，忽然意识到我正在享受它——
-      </p>
-      <a href="https://fantasy-meter-9bb.notion.site/31fe160f898080869f3ad26f36097695"  class="read-more">阅读全文</a>
+      <div class="col-list">
+        <a href="https://fantasy-meter-9bb.notion.site/31fe160f898080869f3ad26f36097695" class="col-list-item">
+          <span class="col-list-title">疼是真的，兔子也是</span>
+          <span class="col-list-meta">2026.03.15</span>
+        </a>
+        <a href="https://fantasy-meter-9bb.notion.site/31fe160f898080869f3ad26f36097695" class="col-list-item">
+          <span class="col-list-title">好奇的人会落入险境</span>
+          <span class="col-list-meta">2026.03.14</span>
+        </a>
+        <a href="https://fantasy-meter-9bb.notion.site/31fe160f898080869f3ad26f36097695" class="col-list-item">
+          <span class="col-list-title">关于孤独，我想说的比想象中少</span>
+          <span class="col-list-meta">2026.03.10</span>
+        </a>
+      </div>
+      <a href="https://fantasy-meter-9bb.notion.site/31fe160f898080869f3ad26f36097695" class="read-more">查看全部</a>
     </div>
 
     <div class="column-section">
       <div class="column-label">🎥 Video · 视频采访</div>
-      <div class="column-heading">和一位翻译聊聊：那些消失在语言缝隙里的东西</div>
-      <div class="column-meta">2026.03.10 · 38 min<br><em style="font-style:italic;font-size:11px;opacity:0.6;">On What Gets Lost in Translation</em></div>
-      <p class="column-excerpt">
-        翻译是一种失去。最好的译者知道什么不能被翻译，然后用另一种方式让读者感受到那个空缺——
-      </p>
-      <a href="https://fantasy-meter-9bb.notion.site/31fe160f898080cca823fdf848d1f93f"  class="read-more">观看视频</a>
+      <div class="col-list">
+        <a href="https://fantasy-meter-9bb.notion.site/31fe160f898080cca823fdf848d1f93f" class="col-list-item">
+          <span class="col-list-title">和一位翻译聊聊：那些消失在语言缝隙里的东西</span>
+          <span class="col-list-meta">2026.03.10</span>
+        </a>
+      </div>
+      <a href="https://fantasy-meter-9bb.notion.site/31fe160f898080cca823fdf848d1f93f" class="read-more">查看全部</a>
     </div>
 
     <div class="column-section">
       <div class="column-label">✒️ Review · 评论</div>
-      <div class="column-heading">战争与诗：伊以冲突的人文注脚</div>
-      <div class="column-meta">2026.03.10 · 3,200 字<br><em style="font-style:italic;font-size:11px;opacity:0.6;">War and Poetry: Notes on the Iran–Israel Conflict</em></div>
-      <p class="column-excerpt">
-        每一次导弹警报响起，都有人在防空洞里读诗。战争从未消灭文学，有时反而成全了它——
-      </p>
-      <a href="https://fantasy-meter-9bb.notion.site/31fe160f8980808a8a5dd6a6e26debf4"  class="read-more">阅读全文</a>
+      <div class="col-list">
+        <a href="https://fantasy-meter-9bb.notion.site/31fe160f8980808a8a5dd6a6e26debf4" class="col-list-item">
+          <span class="col-list-title">战争与诗：伊以冲突的人文注脚</span>
+          <span class="col-list-meta">2026.03.10</span>
+        </a>
+      </div>
+      <a href="https://fantasy-meter-9bb.notion.site/31fe160f8980808a8a5dd6a6e26debf4" class="read-more">查看全部</a>
     </div>
 
   </div>
@@ -907,38 +945,38 @@
     <span class="section-subtitle">Travel Style</span>
   </div>
   <div class="style-grid reveal">
-    <div class="style-item" onclick="window.location.href='https://instagram.com/vane65785'" style="cursor:pointer;">
+    <a href="https://instagram.com/vane65785" class="style-item">
       <img class="style-img" src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600&q=80" alt="city">
       <div class="style-overlay">
         <div class="style-era">City · 城市</div>
         <div class="style-brand">Tokyo · Paris · Seoul</div>
         <p class="style-note">每座城市都有自己的节奏。我喜欢在陌生的街道上假装自己是本地人。</p>
       </div>
-    </div>
-    <div class="style-item" onclick="window.location.href='https://instagram.com/vane65785'" style="cursor:pointer;">
+    </a>
+    <a href="https://instagram.com/vane65785" class="style-item">
       <img class="style-img" src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600&q=80" alt="museum">
       <div class="style-overlay">
         <div class="style-era">Museum · 美术馆</div>
         <div class="style-brand">Art & Architecture</div>
         <p class="style-note">去美术馆是为了和一幅画独处五分钟，忘掉其他所有人。</p>
       </div>
-    </div>
-    <div class="style-item" onclick="window.location.href='https://instagram.com/vane65785'" style="cursor:pointer;">
+    </a>
+    <a href="https://instagram.com/vane65785" class="style-item">
       <img class="style-img" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80" alt="nature">
       <div class="style-overlay">
         <div class="style-era">Nature · 自然</div>
         <div class="style-brand">Mountains & Silence</div>
         <p class="style-note">自然让人重新校准比例感——你很小，问题更小。</p>
       </div>
-    </div>
-    <div class="style-item" onclick="window.location.href='https://instagram.com/vane65785'" style="cursor:pointer;">
+    </a>
+    <a href="https://instagram.com/vane65785" class="style-item">
       <img class="style-img" src="https://images.unsplash.com/photo-1542296332-2e4473faf563?w=600&q=80" alt="transit">
       <div class="style-overlay">
         <div class="style-era">Transit · 途中</div>
         <div class="style-brand">The Journey Itself</div>
         <p class="style-note">途中是旅行最诚实的部分——没有滤镜，只有窗外的光和自己的思绪。</p>
       </div>
-    </div>
+    </a>
   </div>
 </section>
 
